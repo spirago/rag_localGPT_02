@@ -27,9 +27,15 @@ RUN conda init bash
 # Activate the Conda environment in the same shell
 SHELL ["conda", "run", "-n", "privategpt", "/bin/bash", "-c"]
 
-# Install your packages
+# Install conda packages
 RUN conda install -y -n privategpt pip
 RUN pip install --upgrade pip
 
-# Run your application
-# CMD ["conda", "run", "-n", "privategpt", "python", "your_script.py"]
+# Install pip packages
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
+
+# Run python applications
+COPY ingest.py constants.py ./
+
+CMD ["conda", "run", "-n", "privategpt", "python", "ingest.py"]
