@@ -38,6 +38,7 @@ COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
 # Run python applications
+COPY SOURCE_DOCUMENTS ./SOURCE_DOCUMENTS
 COPY ingest.py constants.py ./
 
 CMD ["conda", "run", "-n", "privategpt", "python", "ingest.py"]
