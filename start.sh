@@ -15,5 +15,6 @@ fi
 
 source /root/miniconda3/etc/profile.d/conda.sh  # Adjust this path based on where Miniconda is installed
 conda activate privategpt
+pip install click
 python /ingest.py
 sleep infinity
