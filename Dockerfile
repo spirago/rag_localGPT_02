@@ -1,12 +1,5 @@
-# Use Ubuntu 22.04 as the base image
-FROM ubuntu:22.04
-
-# Set environment variables to avoid any prompts during package installation
-ENV DEBIAN_FRONTEND=noninteractive
-ENV PATH="/root/miniconda3/bin:$PATH"
-ENV PATH = "/usr/local/bin:$PATH"
-# ENV PUBLIC_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOjS9jZFlpVRQLFMFoV3kBdz+lxMOaBxSJ1eFioVZ5+c oli2@poczta.onet.pl"
-ARG PATH="/root/miniconda3/bin:$PATH"
+# Start with a base image that has Conda installed.
+FROM continuumio/miniconda3
 
 # Update and install some basic packages
 RUN apt-get update && apt-get upgrade -y
@@ -21,52 +14,22 @@ RUN apt-get install -y \
     git \
     mercurial \
     subversion
+    
+# Update Conda
+RUN conda update conda
 
-# Set up Miniconda
-# RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
-#     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
-#     rm ~/miniconda.sh && \
-#     /opt/conda/bin/conda clean -tipsy && \
-#     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-#     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-#     echo "conda activate base" >> ~/.bashrc
-RUN wget \
-    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && mkdir /root/.conda \
-    && bash Miniconda3-latest-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh
-
-
-# Add conda to PATH
-# ENV PATH /opt/conda/bin:$PATH
-
-
-# # Install pip in the base conda environment
-RUN conda install -y pip
-RUN pip install --upgrade pip
-
-# # Create a new conda environment with Python 3.10 named ludwig (Replace 3.10 with the version you need)
+# Create a new Conda environment
 RUN conda create -y --name privategpt python=3.10
 
-# # Initialize conda in shell script so conda command can be used
+# Initialize Conda for shell interaction
+RUN conda init bash
+
+# Activate the Conda environment in the same shell
 SHELL ["conda", "run", "-n", "privategpt", "/bin/bash", "-c"]
 
-# # Install Ludwig using pip in the ludwig environment
-# RUN pip install ludwig --no-cache-dir
+# Install your packages
+RUN conda install -y -n privategpt pip
+RUN pip install --upgrade pip
 
-# # Set the default environment to ludwig when starting the container
-ENV CONDA_DEFAULT_ENV=privategpt
-
-# # # Set working directory
-WORKDIR /
-
-# conda init bash
-# source ~/.bashrc
-# conda activate ludwig
-
-
-# # # The command that will be run when the container starts
-ADD start.sh /
-# ADD ludwig_finetune.py /
-RUN chmod +x /start.sh
-CMD ["/start.sh"]
+# Run your application
+# CMD ["conda", "run", "-n", "privategpt", "python", "your_script.py"]
