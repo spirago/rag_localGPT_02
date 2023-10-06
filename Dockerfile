@@ -1,6 +1,12 @@
 # Start with a base image that has Conda installed.
 FROM continuumio/miniconda3
 
+# Set environment variables to avoid any prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PATH="/root/miniconda3/bin:$PATH"
+ENV PATH = "/usr/local/bin:$PATH"
+ARG PATH="/root/miniconda3/bin:$PATH"
+
 # Update and install some basic packages
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y \
