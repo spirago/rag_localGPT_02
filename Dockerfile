@@ -4,6 +4,8 @@ FROM continuumio/miniconda3
 # Update and install some basic packages
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y \
+    build-essential \
+    software-properties-common \
     wget \
     bzip2 \
     ca-certificates \
