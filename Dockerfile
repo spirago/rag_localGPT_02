@@ -27,7 +27,8 @@ RUN apt-get install -y \
 RUN conda update conda
 
 # Create a new Conda environment
-RUN conda create -y --name privategpt python=3.10
+RUN conda create -n privategpt python=3.10
+RUN echo "source activate privategpt" > ~/.bashrc
 
 # Initialize Conda for shell interaction
 RUN conda init bash
@@ -36,7 +37,7 @@ RUN conda init bash
 SHELL ["conda", "run", "-n", "privategpt", "/bin/bash", "-c"]
 
 # Install conda packages
-RUN conda install -y -n privategpt pip
+RUN conda install -n privategpt pip
 RUN pip install --upgrade pip
 
 # Install pip packages

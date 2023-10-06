@@ -13,7 +13,7 @@ then
     service ssh start
 fi
 
-source /root/miniconda3/etc/profile.d/conda.sh  # Adjust this path based on where Miniconda is installed
+source ~/.bashrc  # Adjust this path based on where Miniconda is installed
 conda activate privategpt
 python /ingest.py
 sleep infinity
