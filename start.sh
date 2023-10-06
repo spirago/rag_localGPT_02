@@ -12,9 +12,10 @@ then
     cd /
     service ssh start
 fi
-conda init bash
-echo "conda activate privategpt" >> ~/.bashrc
-source /root/.bashrc
+
+source /root/miniconda3/etc/profile.d/conda.sh  # Adjust this path based on where Miniconda is installed
+conda activate privategpt
+pip install accelerate
+pip install peft
 # python /ludwig_finetune.py
-echo "Start script(s) finished, pod is ready to use."
-sleep infinity
+sleep infinity 
