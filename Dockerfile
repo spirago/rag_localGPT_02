@@ -41,4 +41,19 @@ RUN pip install -r requirements.txt
 COPY SOURCE_DOCUMENTS ./SOURCE_DOCUMENTS
 COPY ingest.py constants.py ./
 
-CMD ["conda", "run", "-n", "privategpt", "python", "ingest.py"]
+# # Set the default environment to ludwig when starting the container
+ENV CONDA_DEFAULT_ENV=privategpt
+
+# # # Set working directory
+WORKDIR /
+
+# conda init bash
+# source ~/.bashrc
+# conda activate ludwig
+
+# # # The command that will be run when the container starts
+ADD start.sh /
+RUN chmod +x /start.sh
+CMD ["/start.sh"]
+
+# CMD ["conda", "run", "-n", "privategpt", "python", "ingest.py"]
