@@ -34,7 +34,7 @@ RUN conda init bash
 SHELL ["conda", "run", "-n", "privategpt", "/bin/bash", "-c"]
 
 # Install conda packages
-RUN conda install -n privategpt pip
+RUN conda install -y -n privategpt pip
 RUN pip install --upgrade pip
 
 # Install pip packages
