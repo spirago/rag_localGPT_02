@@ -1,12 +1,6 @@
 # Start with a base image that has Conda installed.
 FROM continuumio/miniconda3
 
-# Set environment variables to avoid any prompts during package installation
-ENV DEBIAN_FRONTEND=noninteractive
-ENV PATH="/root/miniconda3/bin:$PATH"
-ENV PATH = "/usr/local/bin:$PATH"
-ARG PATH="/root/miniconda3/bin:$PATH"
-
 # Update and install some basic packages
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y \
@@ -27,8 +21,10 @@ RUN apt-get install -y \
 RUN conda update conda
 
 # Create a new Conda environment
+
 RUN conda create -n privategpt python=3.10
 RUN echo "source activate privategpt" > ~/.bashrc
+ENV PATH="/root/miniconda3/bin:$PATH"
 
 # Initialize Conda for shell interaction
 RUN conda init bash
@@ -48,7 +44,7 @@ RUN pip install -r requirements.txt
 COPY SOURCE_DOCUMENTS ./SOURCE_DOCUMENTS
 COPY ingest.py constants.py ./
 
-# # Set the default environment to ludwig when starting the container
+# # Set the default environment to privategpt when starting the container
 ENV CONDA_DEFAULT_ENV=privategpt
 
 # # # Set working directory

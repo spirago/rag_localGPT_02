@@ -15,5 +15,5 @@ fi
 
 source ~/.bashrc  # Adjust this path based on where Miniconda is installed
 conda activate privategpt
-python /ingest.py
+# python /ingest.py
 sleep infinity
