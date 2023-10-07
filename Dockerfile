@@ -42,7 +42,7 @@ RUN pip install -r requirements.txt
 
 # Run python applications
 COPY SOURCE_DOCUMENTS ./SOURCE_DOCUMENTS
-COPY ingest.py constants.py ./
+COPY ingest.py constants.py run_localGPT.py ./
 
 # # Set the default environment to privategpt when starting the container
 ENV CONDA_DEFAULT_ENV=privategpt
